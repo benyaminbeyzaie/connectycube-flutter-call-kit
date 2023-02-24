@@ -106,7 +106,7 @@ class ConnectycubeFlutterCallKit {
 
     if (_bgHandler == -1) {
       final CallbackHandle bgHandle = PluginUtilities.getCallbackHandle(
-          _backgroundEventsCallbackDispatcher)!;
+          backgroundEventsCallbackDispatcher)!;
 
       _bgHandler = bgHandle.toRawHandle();
     }
@@ -157,6 +157,7 @@ class ConnectycubeFlutterCallKit {
   }
 
   /// Show incoming call notification
+  @pragma('vm:entry-point')
   static Future<void> showCallNotification(CallEvent callEvent) async {
     return _methodChannel.invokeMethod(
         "showCallNotification", callEvent.toMap());
@@ -292,7 +293,7 @@ class ConnectycubeFlutterCallKit {
 // any necessary processing in Dart (e.g., populating a custom object) before
 // invoking the provided callback.
 @pragma('vm:entry-point')
-void _backgroundEventsCallbackDispatcher() {
+void backgroundEventsCallbackDispatcher() {
   // Initialize state necessary for MethodChannels.
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -331,6 +332,7 @@ void _backgroundEventsCallbackDispatcher() {
   _channel.invokeMethod<void>('onBackgroundHandlerInitialized');
 }
 
+@pragma('vm:entry-point')
 class CallState {
   static const String PENDING = "pending";
   static const String ACCEPTED = "accepted";
@@ -338,6 +340,7 @@ class CallState {
   static const String UNKNOWN = "unknown";
 }
 
+@pragma('vm:entry-point')
 class BackgroundCallbackName {
   static const String REJECTED_IN_BACKGROUND = "rejected_in_background";
   static const String ACCEPTED_IN_BACKGROUND = "accepted_in_background";
