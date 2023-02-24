@@ -45,9 +45,6 @@ class ConnectycubeFlutterCallKit {
 
   /// end iOS only callbacks
 
-  static CallEventHandler? _onCallRejectedWhenTerminated;
-  static CallEventHandler? _onCallAcceptedWhenTerminated;
-
   static CallEventHandler? _onCallAccepted;
   static CallEventHandler? _onCallRejected;
 
@@ -79,9 +76,8 @@ class ConnectycubeFlutterCallKit {
   ///
   /// This provided handler must be a top-level function and cannot be
   /// anonymous otherwise an [ArgumentError] will be thrown.
+  @pragma('vm:entry-point')
   static set onCallRejectedWhenTerminated(CallEventHandler? handler) {
-    _onCallRejectedWhenTerminated = handler;
-
     if (handler != null) {
       instance._registerBackgroundCallEventHandler(
           handler, BackgroundCallbackName.REJECTED_IN_BACKGROUND);
@@ -93,15 +89,15 @@ class ConnectycubeFlutterCallKit {
   ///
   /// This provided handler must be a top-level function and cannot be
   /// anonymous otherwise an [ArgumentError] will be thrown.
+  @pragma('vm:entry-point')
   static set onCallAcceptedWhenTerminated(CallEventHandler? handler) {
-    _onCallAcceptedWhenTerminated = handler;
-
     if (handler != null) {
       instance._registerBackgroundCallEventHandler(
           handler, BackgroundCallbackName.ACCEPTED_IN_BACKGROUND);
     }
   }
 
+  @pragma('vm:entry-point')
   Future<void> _registerBackgroundCallEventHandler(
       CallEventHandler handler, String callbackName) async {
     if (!Platform.isAndroid) {
@@ -235,6 +231,7 @@ class ConnectycubeFlutterCallKit {
     return _methodChannel.invokeMethod("getLastCallId");
   }
 
+  @pragma('vm:entry-point')
   static Future<void> setOnLockScreenVisibility({
     required bool? isVisible,
   }) async {
@@ -294,6 +291,7 @@ class ConnectycubeFlutterCallKit {
 // from the native portion of the plugin. This allows for the plugin to perform
 // any necessary processing in Dart (e.g., populating a custom object) before
 // invoking the provided callback.
+@pragma('vm:entry-point')
 void _backgroundEventsCallbackDispatcher() {
   // Initialize state necessary for MethodChannels.
   WidgetsFlutterBinding.ensureInitialized();
