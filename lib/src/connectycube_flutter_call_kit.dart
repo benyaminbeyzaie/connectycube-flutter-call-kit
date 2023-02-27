@@ -14,6 +14,7 @@ typedef CallEventHandler = Future<dynamic> Function(CallEvent event);
 /// {@template connectycube_flutter_call_kit}
 /// Plugin to manage call events and notifications
 /// {@endtemplate}
+@pragma('vm:entry-point')
 class ConnectycubeFlutterCallKit {
   static const MethodChannel _methodChannel =
       const MethodChannel('connectycube_flutter_call_kit.methodChannel');
